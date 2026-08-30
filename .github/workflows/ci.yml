@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.11"
+          - os: ubuntu-latest
+            python: "3.14"
+          - os: macos-latest
+            python: "3.13"
+          - os: windows-latest
+            python: "3.13"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e .[dev]
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: mypy src
+      - run: pytest
+      - run: evacuation-route plan examples/synthetic_city.json
+      - run: python scripts/audit_repository.py .
+
