@@ -1,0 +1,40 @@
+{
+  "nodes": [
+    {"id": "start", "x": 0, "y": 0},
+    {"id": "inner-east", "x": 1, "y": 0},
+    {"id": "inner-north", "x": 0, "y": 1},
+    {"id": "flooded-center", "x": 1, "y": 1},
+    {"id": "exit-near", "x": 3, "y": 0},
+    {"id": "exit-far", "x": 0, "y": 3},
+    {"id": "detour", "x": 4, "y": 2},
+    {"id": "closed-center", "x": 3, "y": 3},
+    {"id": "shelter-hill", "x": 0, "y": 5},
+    {"id": "shelter-island", "x": 7, "y": 7}
+  ],
+  "edges": [
+    {"from": "start", "to": "inner-east", "weight": 1},
+    {"from": "inner-east", "to": "exit-near", "weight": 1},
+    {"from": "start", "to": "inner-north", "weight": 2},
+    {"from": "inner-north", "to": "exit-far", "weight": 2},
+    {"from": "inner-east", "to": "flooded-center", "weight": 0.5},
+    {"from": "exit-near", "to": "detour", "weight": 5},
+    {"from": "detour", "to": "shelter-hill", "weight": 6},
+    {"from": "exit-far", "to": "shelter-hill", "weight": 2},
+    {"from": "exit-near", "to": "closed-center", "weight": 1}
+  ],
+  "start": "start",
+  "hazards": [
+    {
+      "id": "synthetic-flood-zone",
+      "polygon": [[-1, -1], [2, -1], [2, 2], [-1, 2]]
+    }
+  ],
+  "hazardous_nodes": [],
+  "shelters": [
+    {"id": "hill-school", "node": "shelter-hill", "eligible": true},
+    {"id": "island-hall", "node": "shelter-island", "eligible": true},
+    {"id": "closed-center", "node": "closed-center", "eligible": false},
+    {"id": "flooded-center", "node": "flooded-center", "eligible": true}
+  ]
+}
+
