@@ -6,9 +6,11 @@ The repository isolates one engineering claim: a route can be optimized subject 
 
 ## Domain boundary
 
-The routing core understands nodes, undirected weighted edges, a hazardous-node set, and shelters. Polygon handling is an adapter that converts coordinates into that set. JSON parsing and CLI rendering are separate adapters.
+The routing core understands nodes, undirected weighted edges, a hazardous-node set, and shelters. Polygon handling is an adapter that converts coordinates into that set. JSON parsing, CLI rendering, and the HTTP service are separate adapters.
 
-This separation prevents map formats, network clients, Flask, Android, or rendering choices from changing the shortest-path logic. A future GIS adapter could replace the small built-in polygon projection while leaving the planner tests unchanged.
+![Data flow between the modules of the package.](images/data-flow.svg)
+
+This separation prevents map formats, network clients, Flask, Android, or rendering choices from changing the shortest-path logic. The Flask adapter in `api.py` is the clearest demonstration: it parses, delegates to `plan_evacuation`, and renders through the same serializer the CLI uses, so it holds no routing logic of its own. A future GIS adapter could replace the small built-in polygon projection while leaving the planner tests unchanged.
 
 ## Invariants
 
@@ -45,11 +47,13 @@ The planner therefore preserves two named stages without treating them as two in
 
 ## Failure semantics
 
-Invalid structure is an input error. A valid but disconnected scenario is a planning result with no selected route, not an exception. This distinction lets automation separate malformed data (`3`) from an understood no-route result (`2`).
+Invalid structure is an input error. A valid but disconnected scenario is a planning result with no selected route, not an exception. This distinction lets automation separate malformed data (`3`) from an understood no-route result (`2`). The HTTP adapter maps the same distinction onto `400` and `422`, and returns the candidate diagnostics in both the success and the no-route case.
 
 Candidate diagnostics remain available when no route exists. They identify disconnected exits and shelters rejected for eligibility, hazard membership, or reachability.
 
 ## Later extensions
 
-Useful extensions would sit behind explicit interfaces: segment-polygon intersection, directed road restrictions, time-dependent weights, shelter capacity, live hazard freshness, and signed data provenance. They should not be presented as historical features or added without sources and failure policies.
+Useful extensions would sit behind explicit interfaces: segment-polygon intersection, directed road restrictions, time-dependent weights, shelter capacity, live hazard freshness, and signed data provenance. [The map data note](gis-data.md) records which real Japanese datasets could supply these and on what terms.
+
+![Deployment concept separating implemented code from original design intent.](images/deployment-concept.svg) They should not be presented as historical features or added without sources and failure policies.
 

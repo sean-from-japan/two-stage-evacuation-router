@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700" width="900" height="700" role="img" aria-labelledby="title desc">
+  <title id="title">Field deployment concept and what is actually implemented</title>
+  <desc id="desc">An Android client would call a routing service over HTTP, and the service would assemble scenarios from stored map data. Only the routing service is implemented in this repository. The client and the map data store are the original design intent and are drawn with dashed borders.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .todo { fill: #f6f8fa; stroke: #8c959f; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .done { fill: #ffffff; stroke: #0969da; stroke-width: 2; }
+    .adapter { fill: #ddf4ff; stroke: #0969da; stroke-width: 1.5; }
+    .core { fill: #ffffff; stroke: #1f2328; stroke-width: 1.5; }
+    .ok { fill: #dafbe1; stroke: #1a7f37; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .warn { fill: #fff8c5; stroke: #9a6700; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .block { fill: #ffebe9; stroke: #cf222e; stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .name { font: 600 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #1f2328; }
+    .label { font: 600 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #1f2328; }
+    .sub { font: 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #57606a; }
+    .edge { font: 11px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #57606a; }
+    .heading { font: 600 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #1f2328; }
+    .zonedone { font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #0969da; }
+    .zonetodo { font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #6e7781; }
+    .statusok { font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #1a7f37; }
+    .statuswarn { font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #9a6700; }
+    .statusblock { font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; fill: #cf222e; }
+    .flow { stroke: #57606a; stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
+    .planned { stroke: #8c959f; stroke-width: 1.6; fill: none; stroke-dasharray: 6 4; marker-end: url(#arrowg); }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#57606a"/>
+    </marker>
+    <marker id="arrowg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8c959f"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="900" height="700"/>
+  <text class="heading" x="30" y="32">Deployment concept — and what this repository actually contains</text>
+
+  <rect class="done" x="30" y="46" width="16" height="16" rx="3"/>
+  <text class="sub" x="54" y="59">implemented and verified here</text>
+  <rect class="todo" x="290" y="46" width="16" height="16" rx="3"/>
+  <text class="sub" x="314" y="59">original design intent, not implemented</text>
+
+  <rect class="todo" x="250" y="86" width="400" height="66" rx="6"/>
+  <text class="label" x="450" y="112" text-anchor="middle">Android client — graphical shell only</text>
+  <text class="sub" x="450" y="132" text-anchor="middle">map display, device location, shelter list</text>
+
+  <path class="planned" d="M 410 152 L 410 206"/>
+  <path class="planned" d="M 490 206 L 490 152"/>
+  <text class="edge" x="502" y="184">HTTP · scenario in, plan out</text>
+
+  <rect class="done" x="140" y="208" width="620" height="146" rx="8"/>
+  <text class="zonedone" x="158" y="232">routing service — the part this repository implements</text>
+
+  <rect class="adapter" x="170" y="248" width="240" height="62" rx="6"/>
+  <text class="name" x="290" y="273" text-anchor="middle">api.py</text>
+  <text class="sub" x="290" y="292" text-anchor="middle">Flask · POST /routes</text>
+
+  <rect class="core" x="490" y="248" width="240" height="62" rx="6"/>
+  <text class="name" x="610" y="273" text-anchor="middle">planner · graph · geometry</text>
+  <text class="sub" x="610" y="292" text-anchor="middle">pure two-stage routing core</text>
+
+  <path class="flow" d="M 410 279 L 486 279"/>
+  <text class="sub" x="450" y="334" text-anchor="middle">tested end to end; the CLI is a second transport onto the same core</text>
+
+  <path class="planned" d="M 450 400 L 450 356"/>
+  <text class="edge" x="462" y="382">assembled into a Scenario</text>
+
+  <rect class="todo" x="80" y="402" width="740" height="252" rx="8"/>
+  <text class="zonetodo" x="98" y="426">map data store — surveyed, not committed; see docs/gis-data.md</text>
+
+  <rect class="ok" x="100" y="444" width="220" height="188" rx="6"/>
+  <text class="label" x="210" y="470" text-anchor="middle">hazard polygons</text>
+  <text class="sub" x="210" y="492" text-anchor="middle">flood inundation areas</text>
+  <text class="sub" x="210" y="510" text-anchor="middle">(A31)</text>
+  <text class="sub" x="210" y="536" text-anchor="middle">GeoJSON · JGD2011</text>
+  <text class="sub" x="210" y="554" text-anchor="middle">2022</text>
+  <text class="statusok" x="210" y="586" text-anchor="middle">obtainable</text>
+  <text class="statusok" x="210" y="604" text-anchor="middle">redistributable with</text>
+  <text class="statusok" x="210" y="620" text-anchor="middle">attribution</text>
+
+  <rect class="warn" x="340" y="444" width="220" height="188" rx="6"/>
+  <text class="label" x="450" y="470" text-anchor="middle">shelter points</text>
+  <text class="sub" x="450" y="492" text-anchor="middle">evacuation facilities</text>
+  <text class="sub" x="450" y="510" text-anchor="middle">(P20)</text>
+  <text class="sub" x="450" y="536" text-anchor="middle">Shapefile · JGD2000</text>
+  <text class="sub" x="450" y="554" text-anchor="middle">2012</text>
+  <text class="statuswarn" x="450" y="586" text-anchor="middle">non-commercial only</text>
+  <text class="statuswarn" x="450" y="604" text-anchor="middle">conflicts with MIT;</text>
+  <text class="statuswarn" x="450" y="620" text-anchor="middle">also stale</text>
+
+  <rect class="block" x="580" y="444" width="220" height="188" rx="6"/>
+  <text class="label" x="690" y="470" text-anchor="middle">road network</text>
+  <text class="sub" x="690" y="492" text-anchor="middle">roads (N01)</text>
+  <text class="sub" x="690" y="510" text-anchor="middle">1995 · topology not</text>
+  <text class="sub" x="690" y="528" text-anchor="middle">guaranteed</text>
+  <text class="statusblock" x="690" y="562" text-anchor="middle">blocker</text>
+  <text class="statusblock" x="690" y="586" text-anchor="middle">the one input the</text>
+  <text class="statusblock" x="690" y="604" text-anchor="middle">algorithm consumes;</text>
+  <text class="statusblock" x="690" y="620" text-anchor="middle">OSM or NILIM instead</text>
+</svg>
