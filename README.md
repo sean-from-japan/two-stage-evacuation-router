@@ -10,7 +10,7 @@ The repository demonstrates deterministic graph algorithms, geometry at a system
 
 ## Historical context and authorship
 
-The original idea came from a **group Super Science High School (SSH) research project in 2022**. The historical system combined an Android/Java application with a Flask web API, used GIS information and device location, and applied Dijkstra's algorithm in two stages: leave the hazard area, then reach an evacuation shelter. The Android client was the graphical shell; route computation and GIS data management lived in the web service.
+The original idea came from a **group research project I did in high school in 2022**. The historical system combined an Android/Java application with a Flask web API, used GIS information and device location, and applied Dijkstra's algorithm in two stages: leave the hazard area, then reach an evacuation shelter. The Android client was the graphical shell; route computation and GIS data management lived in the web service.
 
 I was responsible for system design and implementation. The group discussed and decided both the routing algorithm and the choice to build an application. The original work was therefore a team project, not my solo project.
 
