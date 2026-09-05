@@ -1,13 +1,22 @@
-"""JSON input adapter for synthetic routing scenarios."""
+"""JSON adapters for synthetic routing scenarios and their results."""
 
 from __future__ import annotations
 
 import json
 from collections.abc import Mapping
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
-from two_stage_router.model import Edge, Node, Point, Polygon, Scenario, Shelter
+from two_stage_router.model import (
+    Edge,
+    Node,
+    PlanResult,
+    Point,
+    Polygon,
+    Scenario,
+    Shelter,
+)
 
 
 class ScenarioFormatError(ValueError):
@@ -120,3 +129,13 @@ def load_scenario(path: Path) -> Scenario:
     except json.JSONDecodeError as error:
         raise ScenarioFormatError(f"invalid JSON: {error.msg}") from error
     return scenario_from_dict(_object(document, "document"))
+
+
+def plan_result_to_json(result: PlanResult) -> str:
+    """Render a plan result as the canonical JSON document.
+
+    Every presentation adapter calls this, so the CLI and the HTTP API cannot
+    drift apart. Sorted keys keep the output byte-stable across runs.
+    """
+
+    return json.dumps(asdict(result), indent=2, sort_keys=True)
