@@ -1,5 +1,7 @@
 # Two-Stage Evacuation Router
 
+**English** | [日本語概要](README.ja.md)
+
 [![CI](https://github.com/sean-from-japan/two-stage-evacuation-router/actions/workflows/ci.yml/badge.svg)](https://github.com/sean-from-japan/two-stage-evacuation-router/actions/workflows/ci.yml)
 
 An evacuation route should not stop at the first safe-looking road. This project finds a shortest valid route that first leaves a hazard and then reaches an eligible shelter, while explaining every exit and shelter it accepted or rejected.
